@@ -6,84 +6,30 @@ namespace VrsteSortiranjaNizova
 {
     internal class Program
     {
+        static int iteracije = 0;
+
         static void Main()
         {
-            int[] niz = { 5, 3, 3, 1, 2, 7, 4, 6 };
+            int[] niz = { 8, 17, 3, 3, 5, 10, 19, 12, 1, 6 };
 
-            Console.WriteLine("Izaberite vrstu sortiranja: ");
-            Console.WriteLine("1. Bubble sort");
-            Console.WriteLine("2. Quick sort");
-            Console.WriteLine("3. Random quick sort");
-            Console.WriteLine("4. Merge sort");
-            Console.WriteLine("5. Selection sort");
-            Console.WriteLine("6. Counting sort");
-            Console.WriteLine();
-            Console.Write("Vas izbor: ");
+            IspisivanjeNiza("1. Bubble sort", BubbleSort(niz));
+            IspisivanjeNiza("2. Quick sort", QuickSort(niz));
+            IspisivanjeNiza("3. Random quick sort", RandomQuickSort(niz, 0, niz.Length - 1));
+            IspisivanjeNiza("4. Merge sort", MergeSort(niz));
+            IspisivanjeNiza("5. Selection sort", SelectionSort(niz));
+            IspisivanjeNiza("6. Counting sort", CountingSort(niz));
 
-            int izbor = int.Parse(Console.ReadLine());
-
-            bool validanUnos = true;
-
-            Console.WriteLine();
-
-            switch (izbor)
-            {
-                case 1:
-                    niz = BubbleSort(niz);
-
-                    break;
-                case 2:
-                    niz = QuickSort(niz);
-
-                    break;
-                case 3:
-                    niz = RandomQuickSort(niz, 0, niz.Length - 1);
-
-                    break;
-                case 4:
-                    niz = MergeSort(niz);
-
-                    break;
-                case 5:
-                    niz = SelectionSort(niz);
-
-                    break;
-                case 6:
-                    niz = CountingSort(niz);
-
-                    break;
-                default:
-                    Console.WriteLine("Niste izabrali nijednu od ponudjenih opcija.");
-                    Console.WriteLine();
-
-                    validanUnos = false;
-
-                    break;
-            }
-
-            if (validanUnos) IspisivanjeNiza(niz);
+            Console.ReadKey();
         }
 
-        static void IspisivanjeNiza(int[] niz)
+        static void IspisivanjeNiza(string naslov, int[] niz)
         {
-            Console.WriteLine("Sortiran niz:");
-            
-            Console.Write("[");
-
-            for (int i = 0; i < niz.Length; i++)
-            {
-                if (i == niz.Length - 1)
-                {
-                    Console.Write(niz[i]);
-                }
-                else
-                {
-                    Console.Write(niz[i] + ", ");
-                }
-            }
-
-            Console.WriteLine("]");
+            Console.WriteLine(naslov);
+            Console.WriteLine("Sortiran niz: [" + string.Join(", ", niz) + "]");
+            Console.WriteLine("Broj iteracija: " + iteracije); 
             Console.WriteLine();
+
+            iteracije = 0;
         }   
 
         static int[] BubbleSort(int[] niz)
@@ -92,11 +38,15 @@ namespace VrsteSortiranjaNizova
             {
                 for (int j = 0; j < niz.Length - 1; j++)
                 {
+                    iteracije++;
+
                     if (niz[j] > niz[j + 1])
                     {
                         (niz[j + 1], niz[j]) = (niz[j], niz[j + 1]);
                     }
                 }   
+
+
             }
 
             return niz;
@@ -113,6 +63,8 @@ namespace VrsteSortiranjaNizova
 
                 for (int i = 1; i < niz.Length; i++)
                 {
+                    iteracije++;
+
                     if (niz[i] < prvi)
                     {
                         leviDeo.Add(niz[i]);
@@ -147,6 +99,8 @@ namespace VrsteSortiranjaNizova
 
                 for (int j = levo; j < desno; j++)
                 {
+                    iteracije++;
+
                     if (niz[j] <= pivot)
                     {
                         i++;
@@ -184,6 +138,8 @@ namespace VrsteSortiranjaNizova
 
             while (i < leviDeo.Length && j < desniDeo.Length)
             {
+                iteracije++;
+
                 if (leviDeo[i] <= desniDeo[j])
                 {
                     niz[k++] = leviDeo[i++];
@@ -196,11 +152,15 @@ namespace VrsteSortiranjaNizova
 
             while (i < leviDeo.Length)
             {
+                iteracije++;
+
                 niz[k++] = leviDeo[i++];
             }
 
             while (j < desniDeo.Length)
             {
+                iteracije++;
+
                 niz[k++] = desniDeo[j++];
             }
 
@@ -217,6 +177,8 @@ namespace VrsteSortiranjaNizova
 
                 for (int j = i + 1; j < n; j++)
                 {
+                    iteracije++;
+
                     if (niz[j] < niz[min])
                     {
                         min = j;
@@ -245,16 +207,22 @@ namespace VrsteSortiranjaNizova
 
             foreach (int num in niz)
             {
+                iteracije++;
+
                 brojac[num - min]++;
             }
 
             for (int i = 1; i < range; i++)
             {
+                iteracije++;
+
                 brojac[i] += brojac[i - 1];
             }
 
             for (int i = niz.Length - 1; i >= 0; i--)
             {
+                iteracije++;
+
                 rezultat[brojac[niz[i] - min] - 1] = niz[i];
                 brojac[niz[i] - min]--;
             }
