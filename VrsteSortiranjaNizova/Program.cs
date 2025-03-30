@@ -10,7 +10,7 @@ namespace VrsteSortiranjaNizova
 
         static void Main()
         {
-            int[] niz = { 8, 17, 3, 3, 5, 10, 19, 12, 1, 6 };
+            int[] niz = { 8, 17, 3, 3, 5, 10, 19, 12, 1, 6, 13, 8, 5 };
 
             IspisivanjeNiza("1. Bubble sort", BubbleSort(niz));
             IspisivanjeNiza("2. Quick sort", QuickSort(niz));
@@ -44,9 +44,7 @@ namespace VrsteSortiranjaNizova
                     {
                         (niz[j + 1], niz[j]) = (niz[j], niz[j + 1]);
                     }
-                }   
-
-
+                }
             }
 
             return niz;
@@ -94,23 +92,27 @@ namespace VrsteSortiranjaNizova
 
                 (niz[pivotIndeks], niz[desno]) = (niz[desno], niz[pivotIndeks]);
 
+                iteracije++;
+
                 int pivot = niz[desno];
                 int i = levo - 1;
 
                 for (int j = levo; j < desno; j++)
                 {
-                    iteracije++;
-
                     if (niz[j] <= pivot)
                     {
                         i++;
 
                         (niz[i], niz[j]) = (niz[j], niz[i]);
+
+                        iteracije++;
                     }
                 }
 
                 (niz[i + 1], niz[desno]) = (niz[desno], niz[i + 1]);
-                
+
+                iteracije++;
+
                 int pivotNoviIndeks = i + 1;
 
                 RandomQuickSort(niz, levo, pivotNoviIndeks - 1);
@@ -181,12 +183,16 @@ namespace VrsteSortiranjaNizova
 
                     if (niz[j] < niz[min])
                     {
+                        iteracije++;
+
                         min = j;
                     }
                 }
 
                 if (min != i)
                 {
+                    iteracije++;
+
                     (niz[min], niz[i]) = (niz[i], niz[min]);
                 }
             }
@@ -221,7 +227,7 @@ namespace VrsteSortiranjaNizova
 
             for (int i = niz.Length - 1; i >= 0; i--)
             {
-                iteracije++;
+                iteracije += 2;
 
                 rezultat[brojac[niz[i] - min] - 1] = niz[i];
                 brojac[niz[i] - min]--;
