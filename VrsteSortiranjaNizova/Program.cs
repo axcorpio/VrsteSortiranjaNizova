@@ -99,13 +99,13 @@ namespace VrsteSortiranjaNizova
 
                 for (int j = levo; j < desno; j++)
                 {
+                    iteracije++;
+
                     if (niz[j] <= pivot)
                     {
                         i++;
 
                         (niz[i], niz[j]) = (niz[j], niz[i]);
-
-                        iteracije++;
                     }
                 }
 
